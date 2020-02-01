@@ -1,15 +1,11 @@
 'use strict';
 
-//we need to move superagent to each module that will make api calls
-const superagent = require('superagent');
-
-//This is bringing in an instance of our Client module
 const client = require('./Client');
 
-//from the server, this location object will get info from either DB cache or from the insert(after api call)
-//and the module exports this object.
-//notice at the bottom.  this is what we are exporting.  By envoking getLocaitonData()
-const location = {};
+const superagent = require('superagent');
+
+
+// const location = {};
 
 
 
