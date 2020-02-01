@@ -31,53 +31,53 @@ app.get('/events', eventfulHandler);
 
 //callback functions
 
-function locationHandler(request, response) {
-  let city = request.query.city;
-  // console.log(request.query);
-  let SQL = `SELECT * FROM explorer WHERE city='${city}';`;
-  // console.log('this is my SQL', SQL);
-  client.query(SQL)
-    .then(results => {
-      if (results.rows.length > 0) {
-        response.send(results.rows[0]);
-      } else {
-        try {
-          let key = process.env.GEOCODE_API_KEY;
-          const url = `https://us1.locationiq.com/v1/search.php?key=${key}&q=${city}&format=json&limit=1`;
-          superagent.get(url)
-            .then(data => {
-              const geoData = data.body[0];
-              const location = new Location(city, geoData);
-              const {search_query, formatted_query, latitude, longitude} = location;
-              let apiToSql = `INSERT INTO explorer (city, formattedquery, lat, long) VALUES ('${search_query}','${formatted_query}','${latitude}','${longitude}');`;
-              client.query(apiToSql);
-              response.send(location);
-            })
-            .catch(() => {
-              errorHandler('not today satan.', request, response);
-            });
-        } catch (error) {
-          errorHandler(error, request, response);
-        }
-      }
-    });
-}
+// function locationHandler(request, response) {
+//   let city = request.query.city;
+//   // console.log(request.query);
+//   let SQL = `SELECT * FROM explorer WHERE city='${city}';`;
+//   // console.log('this is my SQL', SQL);
+//   client.query(SQL)
+//     .then(results => {
+//       if (results.rows.length > 0) {
+//         response.send(results.rows[0]);
+//       } else {
+//         try {
+//           let key = process.env.GEOCODE_API_KEY;
+//           const url = `https://us1.locationiq.com/v1/search.php?key=${key}&q=${city}&format=json&limit=1`;
+//           superagent.get(url)
+//             .then(data => {
+//               const geoData = data.body[0];
+//               const location = new Location(city, geoData);
+//               const {search_query, formatted_query, latitude, longitude} = location;
+//               let apiToSql = `INSERT INTO explorer (city, formattedquery, lat, long) VALUES ('${search_query}','${formatted_query}','${latitude}','${longitude}');`;
+//               client.query(apiToSql);
+//               response.send(location);
+//             })
+//             .catch(() => {
+//               errorHandler('not today satan.', request, response);
+//             });
+//         } catch (error) {
+//           errorHandler(error, request, response);
+//         }
+//       }
+//     });
+// }
 
-function weatherHandler(request, response) {
-  let latitude = request.query.latitude;
-  let longitude = request.query.longitude;
-  const url = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${latitude},${longitude}`;
-  superagent.get(url)
-    .then(data => {
-      const weatherSummaries = data.body.daily.data.map(day => {
-        return new Weather(day);
-      });
-      response.status(200).json(weatherSummaries);
-    })
-    .catch(() => {
-      errorHandler('not today satan.', request, response);
-    });
-}
+// function weatherHandler(request, response) {
+//   let latitude = request.query.latitude;
+//   let longitude = request.query.longitude;
+//   const url = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${latitude},${longitude}`;
+//   superagent.get(url)
+//     .then(data => {
+//       const weatherSummaries = data.body.daily.data.map(day => {
+//         return new Weather(day);
+//       });
+//       response.status(200).json(weatherSummaries);
+//     })
+//     .catch(() => {
+//       errorHandler('not today satan.', request, response);
+//     });
+// }
 
 
 function eventfulHandler(request, response) {
@@ -96,17 +96,17 @@ function eventfulHandler(request, response) {
 
 
 //constructors
-function Location(city, geoData) {
-  this.search_query = city;
-  this.formatted_query = geoData.display_name;
-  this.latitude = geoData.lat;
-  this.longitude = geoData.lon;
-}
+// function Location(city, geoData) {
+//   this.search_query = city;
+//   this.formatted_query = geoData.display_name;
+//   this.latitude = geoData.lat;
+//   this.longitude = geoData.lon;
+// }
 
-function Weather(day) {
-  this.forecast = day.summary;
-  this.time = new Date(day.time * 1000).toDateString();
-}
+// function Weather(day) {
+//   this.forecast = day.summary;
+//   this.time = new Date(day.time * 1000).toDateString();
+// }
 
 function Event(object) {
   this.link = object.url;
