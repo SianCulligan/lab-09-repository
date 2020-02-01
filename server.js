@@ -1,23 +1,23 @@
 'use strict';
 
-require('dotenv').config();
+// require('dotenv').config();
 
-const express = require('express');
-const cors = require('cors');
-const superagent = require('superagent');
-const pg = require('pg');
+// const express = require('express');
+// const cors = require('cors');
+// const superagent = require('superagent');
+// const pg = require('pg');
 
 
-const PORT = process.env.PORT;
-const app = express();
-app.use(cors());
+// const PORT = process.env.PORT;
+// const app = express();
+// app.use(cors());
 
-const client = new pg.Client(process.env.DATABASE_URL);
-client.on('error', err => console.error(err));
+// const client = new pg.Client(process.env.DATABASE_URL);
+// client.on('error', err => console.error(err));
 
-app.get('/', (request, response) => {
-  response.send(`It's alllllive!`);
-});
+// app.get('/', (request, response) => {
+//   response.send(`It's alllllive!`);
+// });
 
 
 //Xrun npm init
@@ -25,9 +25,9 @@ app.get('/', (request, response) => {
 //list out routes...
 // app.get('/location', locationHandler);
 
-app.get('/location', locationHandler);
-app.get('/weather', weatherHandler);
-app.get('/events', eventfulHandler);
+// app.get('/location', locationHandler);
+// app.get('/weather', weatherHandler);
+// app.get('/events', eventfulHandler);
 
 //callback functions
 
@@ -80,17 +80,17 @@ app.get('/events', eventfulHandler);
 // }
 
 
-function eventfulHandler(request, response) {
-  const {search_query} = request.query;
-  let url = `http://api.eventful.com/json/events/search?location=${search_query}&app_key=${process.env.EVENTFUL_API_KEY}`;
-  superagent.get(url)
-    .then(data => {
-      let eventfulData = JSON.parse(data.text).events.event;
-      console.log(eventfulData);
-      const eventsArr = eventfulData.map(value => new Event(value));
-      response.send(eventsArr);
-    });
-}
+// function eventfulHandler(request, response) {
+//   const {search_query} = request.query;
+//   let url = `http://api.eventful.com/json/events/search?location=${search_query}&app_key=${process.env.EVENTFUL_API_KEY}`;
+//   superagent.get(url)
+//     .then(data => {
+//       let eventfulData = JSON.parse(data.text).events.event;
+//       console.log(eventfulData);
+//       const eventsArr = eventfulData.map(value => new Event(value));
+//       response.send(eventsArr);
+//     });
+// }
 
 //destructuring: CHECK LINE 68* After looking at the results of request.query.______, take the result keys and create a line where you open an object {}, and fill it with needed key(s), equals out to request.query; THANKS LENA!
 
@@ -108,20 +108,58 @@ function eventfulHandler(request, response) {
 //   this.time = new Date(day.time * 1000).toDateString();
 // }
 
-function Event(object) {
-  this.link = object.url;
-  this.name = object.title;
-  this.event_date = object.start_time;
-  this.summary = object.description;
-}
+// function Event(object) {
+//   this.link = object.url;
+//   this.name = object.title;
+//   this.event_date = object.start_time;
+//   this.summary = object.description;
+// }
 
-//helper functions (error catching)
-function errorHandler(error, request, response) {
-  response.status(500).send(error);
-}
+// //helper functions (error catching)
+// function errorHandler(error, request, response) {
+//   response.status(500).send(error);
+// }
 
-//server "listener"
-client.connect()
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server up on port ${PORT}`))
-  });
+// //server "listener"
+// client.connect()
+//   .then(() => {
+//     app.listen(PORT, () => console.log(`Server up on port ${PORT}`))
+//   });
+
+
+
+
+
+
+
+
+
+
+
+
+const insert
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
