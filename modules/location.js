@@ -1,13 +1,7 @@
 'use strict';
 
-const client = require('./Client');
-
 const superagent = require('superagent');
-
-
-// const location = {};
-
-
+const client = require('./Client.js');
 
 function locationHandler(request, response) {
   let city = request.query.city;
@@ -39,32 +33,7 @@ function locationHandler(request, response) {
         }
       }
     });
-// }
-
-
-
-
-
-
-
-
-
-function cacheLocation(city, data) {
-    const location = new Location(data[0]);
-    let SQL = `INSERT INTO locations (search_query, formatted_query, latitude, longitude)
-    VALUES ($1, $2, $3, $4)
-    RETURNING *;`;
-    let values = [city, location.formatted_query, location.latitude, location.longitude];
-    return client.query(SQL, values)
-      .then(results => results.rows[0])
-  }
-
-
-
-
-
-
-
+}
 
 function Location(city, geoData) {
   this.search_query = city;
@@ -73,12 +42,9 @@ function Location(city, geoData) {
   this.longitude = geoData.lon;
 }
 
-
 function errorHandler(error, request, response) {
-    response.status(500).send(error);
-  }
-  
+  response.status(500).send(error);
+}
 
-
-module.exports = location;
-
+// client.connect();
+module.exports = locationHandler;
