@@ -1,9 +1,6 @@
 'use strict';
 
 const superagent = require('superagent');
-module.exports = getWeather;
-
-
 
 
 function weatherHandler(request, response) {
@@ -22,16 +19,14 @@ function weatherHandler(request, response) {
     });
 }
 
-
-
-
 function Weather(day) {
   this.forecast = day.summary;
   this.time = new Date(day.time * 1000).toDateString();
 }
 
-
 function errorHandler(error, request, response) {
   response.status(500).send(error);
 }
 
+// client.connect();
+module.exports = weatherHandler;
